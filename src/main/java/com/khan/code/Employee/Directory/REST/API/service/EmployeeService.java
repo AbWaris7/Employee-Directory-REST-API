@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface EmployeeService {
 
+
     List<Employee> findAll();
-    Employee findById(int empId);
+    Employee findById(long empId);
     Employee save(EmployeeRequest employee);
     Employee update(long id, EmployeeRequest employeeRequest);
     Employee convertToEmployee (long id, EmployeeRequest employeeRequest);
-    void deleteById(int empId);
+    void deleteById(long empId);
+
 }

@@ -10,7 +10,6 @@ import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -63,7 +62,7 @@ public class EmployeeRestController {
     }
 
 
-    @Operation(summary = "Delete an Employee", description = "Remove Employee from Database")
+    @Operation(summary = "Delete an Employee", description = "Delete the current employee")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{employeeId}")
     public void deleteEmployee(@PathVariable @Min(value = 1) int employeeId) {

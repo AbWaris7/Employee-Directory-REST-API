@@ -11,6 +11,7 @@ import java.util.List;
 @Repository
 public class EmployeeDAOJpaImpl implements EmployeeDAO {
 
+    /*
     private EntityManager entityManager;
 
     @Autowired
@@ -45,4 +46,6 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO {
         entityManager.remove(theEmployee);
 
     }
+
+     */
 }
