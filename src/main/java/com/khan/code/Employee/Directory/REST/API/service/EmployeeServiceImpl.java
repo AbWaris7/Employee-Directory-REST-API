@@ -1,7 +1,5 @@
 package com.khan.code.Employee.Directory.REST.API.service;
 
-
-import com.khan.code.Employee.Directory.REST.API.dao.EmployeeDAO;
 import com.khan.code.Employee.Directory.REST.API.dao.EmployeeRepository;
 import com.khan.code.Employee.Directory.REST.API.entity.Employee;
 import com.khan.code.Employee.Directory.REST.API.request.EmployeeRequest;
