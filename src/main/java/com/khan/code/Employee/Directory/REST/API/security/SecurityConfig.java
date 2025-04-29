@@ -9,35 +9,45 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SecurityConfig {
 
 
+//    @Bean
+//    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+//
+//        UserDetails john = User.builder()
+//                .username("john")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE")
+//                .build();
+//
+//        UserDetails marry = User.builder()
+//                .username("marry")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE", "MANAGER")
+//                .build();
+//
+//        UserDetails abdul = User.builder()
+//                .username("abdul")
+//                .password("{noop}test123")
+//                .roles("EMPLOYEE", "MANAGER","ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(john, marry, abdul);
+//    }
+
+
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}test123")
-                .roles("EMPLOYEE")
-                .build();
-
-        UserDetails marry = User.builder()
-                .username("marry")
-                .password("{noop}test123")
-                .roles("EMPLOYEE", "MANAGER")
-                .build();
-
-        UserDetails abdul = User.builder()
-                .username("abdul")
-                .password("{noop}test123")
-                .roles("EMPLOYEE", "MANAGER","ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(john, marry, abdul);
+    public UserDetailsManager userDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean
@@ -45,6 +55,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests(configurer ->
                 configurer
+                        .requestMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/h2-console/**").permitAll()
                         .requestMatchers("/docs/**", "/swagger-ui/**", "/v3/api-docs/**", "swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/employees")
                         .hasRole("EMPLOYEE")
@@ -66,6 +78,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
 
         http.exceptionHandling(exceptionHandler -> exceptionHandler.authenticationEntryPoint(authenticationEntryPoint()));
+        http.headers(headers -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
         return http.build();
     }
 
